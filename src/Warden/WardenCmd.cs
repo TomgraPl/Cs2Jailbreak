@@ -22,9 +22,32 @@ using System.Drawing;
 
 public partial class Warden
 {
+        public void DeputyCmd(CCSPlayerController? player, CommandInfo command) {
+        if (player.IsLegalAliveCT() && player.Slot != wardenSlot) {
+            if (player.Slot == deputySlot) {
+                Chat.LocalizeAnnounce(WARDEN_PREFIX, "deputy.resign", player.PlayerName);
+                deputySlot = INAVLID_SLOT;
+			} else {
+                if (deputySlot == INAVLID_SLOT) {
+					Chat.LocalizeAnnounce(WARDEN_PREFIX, "deputy.take", player.PlayerName);
+					deputySlot = player.Slot;
+				} else {
+                    player.LocalizeAnnounce(WARDEN_PREFIX, "deputy.fail");
+                }
+            }
+        } else if (player.IsLegal()) {
+			player.LocalizeAnnounce(WARDEN_PREFIX, "deputy.fail");
+		}
+    }
     public void LeaveWardenCmd(CCSPlayerController? player, CommandInfo command)
     {
-        RemoveIfWarden(player);
+        if (IsWarden(player)) {
+            RemoveWarden();
+            if (Config.wardenDeputy) {
+                SetWarden(deputySlot);
+                deputySlot = INAVLID_SLOT;
+            }
+        }
     }
 
     public void RemoveMarkerCmd(CCSPlayerController? player, CommandInfo command)
@@ -46,21 +69,48 @@ public partial class Warden
     {
         Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.remove");
         RemoveWarden();
-    }
+		if (Config.wardenDeputy) {
+			SetWarden(deputySlot);
+			deputySlot = INAVLID_SLOT;
+		}
+	}
 
-    [RequiresPermissions("@css/generic")]
+	[RequiresPermissions("@css/generic")]
+	public void ForceWardenCmd(CCSPlayerController? player, CommandInfo command) {
+        if (player.IsLegal()) {
+            ChatMenu menu = new("warden.forcemenu");
+            foreach (var p in Utilities.GetPlayers()) {
+                menu.AddMenuOption(p.PlayerName, (pl, op) => {
+                    if (p.IsLegal()) {
+                        if (p.TeamNum != 3) {
+                            p.ChangeTeam(CsTeam.CounterTerrorist);
+						}
+                        if (!p.PawnIsAlive) {
+							p.Respawn();
+						}
+						Chat.LocalizeAnnounce(WARDEN_PREFIX, "warden.force", p.PlayerName, player.PlayerName);
+						RemoveWarden();
+						SetWarden(player.Slot);
+                    }
+                });
+            }
+            MenuManager.OpenChatMenu(player, menu);
+        }
+	}
+
+	[RequiresPermissions("@css/generic")]
     public void ForceOpenCmd(CCSPlayerController? invoke, CommandInfo command)
     {
-        Entity.ForceOpen();
+		Chat.LocalizeAnnounce(WARDEN_PREFIX, "warden.dooropen");
+		Entity.ForceOpen();
     }
 
 
     [RequiresPermissions("@css/generic")]
-    public void ForceCloseCmd(CCSPlayerController? invoke, CommandInfo command)
-    {
-        Entity.ForceClose();
+    public void ForceCloseCmd(CCSPlayerController? invoke, CommandInfo command) {
+		Chat.LocalizeAnnounce(WARDEN_PREFIX, "warden.doorclose");
+		Entity.ForceClose();
     }
-
 
     public void WardayCmd(CCSPlayerController? player, CommandInfo command)
     {
