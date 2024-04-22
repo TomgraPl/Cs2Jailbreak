@@ -58,6 +58,9 @@
     "warden.warden_prefix": "{green}[Warden]: {white}",
     "warden.door_prefix": "{green}[Door]: {white}",
     "warden.team_prefix": "{green}[Team]: {white}",
+	
+    "warden.deputy_cmd": "d",
+    "warden.force_warden_cmd": "force_warden",
 
     "warden.give_pardon": "{0} has been pardoned",
     "warden.give_freeday": "{0} has been given a freeday",
@@ -67,6 +70,13 @@
     "warden.countdown_usage": "!countdown: <time> <msg>",
     "warden.countdown_restrict": "You must be the warden to call a countdown",
     "warden.countdown_abort": "Warden aborted the countdown",
+    
+    "warden.dooropen": "Doors were open by admin",
+    "warden.doorclose": "Doors were closed by admin",
+    "warden.force": "Admin {1} set {0} as warden",
+    "deputy.resign": "{0} resigned from deputy",
+    "deputy.take": "{0} became deputy",
+    "deputy.fail": "Failed to take deputy",
 
 
     "logs.ct": "CT",

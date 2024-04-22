@@ -59,6 +59,9 @@
     "warden.door_prefix": "{green}[Drzwi]: {white}",
     "warden.team_prefix": "{green}[Drużyna]: {white}",
 
+    "warden.deputy_cmd": "d",
+    "warden.force_warden_cmd": "force_warden",
+
     "warden.give_pardon": "{0} został ułaskawiony",
     "warden.give_freeday": "{0} dostał dzień wolny",
 
@@ -67,6 +70,13 @@
     "warden.countdown_usage": "!countdown: <czas> <komunikat>",
     "warden.countdown_restrict": "Musisz być wardenem, aby ogłosić odliczanie",
     "warden.countdown_abort": "Warden anulował odliczanie",
+    
+    "warden.dooropen": "Drzwi zostały otwarte przez admina",
+    "warden.doorclose": "Drzwi zostały zamknięte przez admina",
+    "warden.force": "Admin {1} ustawił gracza {0} jako wardena",
+    "deputy.resign": "{0} zrezygnował z bycia zastępcą",
+    "deputy.take": "{0} został zastępcą",
+    "deputy.fail": "Nie udało Ci się zostać zastępcą",
 
     "logs.ct": "CT",
     "logs.t": "T",
