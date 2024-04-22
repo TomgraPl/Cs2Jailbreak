@@ -143,44 +143,6 @@ public class JailConfig : BasePluginConfig
 	public bool wardenDeputy { get; set; } = true;
 }
 
-public class WardenService : IWardenService {
-    public WardenService(JailPlugin plugin) { _plugin = plugin; }
-	private readonly JailPlugin _plugin;
-	public event Action<CCSPlayerController?, LastRequest.LRType>? OnLRWin;
-	public event Action<CCSPlayerController?, LastRequest.LRType>? OnLRLost;
-	public bool IsWarden(CCSPlayerController? player)
-    {
-        return JailPlugin.IsWarden(player);
-    }
-
-    public void SetWarden(CCSPlayerController player)
-    {
-        if(player.IsLegalAlive() && player.IsCt())
-        {
-            JailPlugin.warden.SetWarden(player.Slot);
-        }
-    }
-
-    public CCSPlayerController? GetWarden()
-    {
-        return JailPlugin.warden.GetWarden();
-    }
-    
-	public bool IsDeputy(CCSPlayerController? player) {
-        return player != null && player.Slot == JailPlugin.warden.deputySlot;
-	}
-	public CCSPlayerController? GetDeputy() {
-        return Utilities.GetPlayerFromSlot(JailPlugin.warden.deputySlot);
-	}
-
-	public void LRWin(CCSPlayerController? player, LastRequest.LRType type) {
-		OnLRLost?.Invoke(player, type);
-	}
-	public void LRLost(CCSPlayerController? player, LastRequest.LRType type) {
-		OnLRWin?.Invoke(player, type);
-	}
-}
- 
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
 [MinimumApiVersion(193)]
