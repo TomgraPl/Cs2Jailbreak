@@ -68,6 +68,7 @@ public partial class Warden
 
     void RemoveWardenInternal()
     {
+        //Lib.PlaySoundAll
         wardenSlot = INAVLID_SLOT;
         wardenTimestamp = -1;
     }
@@ -137,7 +138,6 @@ public partial class Warden
         {
             return;
         }
-
         // if there is only one ct automatically give them warden!
         var ctPlayers = Lib.GetAliveCt();
 
@@ -213,7 +213,9 @@ public partial class Warden
 
     Countdown<int> chatCountdown = new Countdown<int>();
 
-    const int INAVLID_SLOT = -3;   
+    const int INAVLID_SLOT = -3;
+
+    int deputySlot = INAVLID_SLOT;
 
     int wardenSlot = INAVLID_SLOT;
     
