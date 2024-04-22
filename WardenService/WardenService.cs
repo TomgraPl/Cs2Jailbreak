@@ -11,4 +11,6 @@ public interface IWardenService
     public bool IsWarden(CCSPlayerController? player);
     public CCSPlayerController? GetWarden();
     public void SetWarden(CCSPlayerController player);
+    public bool IsDeputy(CCSPlayerController? player);
+	public CCSPlayerController? GetDeputy();
 }
