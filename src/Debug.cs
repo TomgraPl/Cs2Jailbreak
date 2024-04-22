@@ -66,8 +66,8 @@ public static class Debug
 
             if(col != null)
             {
-                pawn.MyCollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DEBRIS_TRIGGER;
-                col.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DEBRIS_TRIGGER;
+                pawn.MyCollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_TRIGGER;
+                col.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_TRIGGER;
             }
         }      
     }

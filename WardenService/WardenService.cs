@@ -8,7 +8,15 @@ using CounterStrikeSharp.API.Modules.Entities;
 
 public interface IWardenService
 {
-    public bool IsWarden(CCSPlayerController? player);
+	/// <summary>
+	/// Event triggered when LR was won
+	/// </summary>
+	public event Action<CCSPlayerController?, LastRequest.LRType>? OnLRWin;
+	/// <summary>
+	/// Event triggered when LR was lost
+	/// </summary>
+	public event Action<CCSPlayerController?, LastRequest.LRType>? OnLRLost;
+	public bool IsWarden(CCSPlayerController? player);
     public CCSPlayerController? GetWarden();
     public void SetWarden(CCSPlayerController player);
     public bool IsDeputy(CCSPlayerController? player);

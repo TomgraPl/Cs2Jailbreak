@@ -215,7 +215,7 @@ public partial class Warden
 
     const int INAVLID_SLOT = -3;
 
-    int deputySlot = INAVLID_SLOT;
+    public int deputySlot { get; private set; } = INAVLID_SLOT;
 
     int wardenSlot = INAVLID_SLOT;
     

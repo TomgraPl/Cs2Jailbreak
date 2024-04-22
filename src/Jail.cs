@@ -143,9 +143,12 @@ public class JailConfig : BasePluginConfig
 	public bool wardenDeputy { get; set; } = true;
 }
 
-public class WardenService : IWardenService
-{
-    public bool IsWarden(CCSPlayerController? player)
+public class WardenService : IWardenService {
+    public WardenService(JailPlugin plugin) { _plugin = plugin; }
+	private readonly JailPlugin _plugin;
+	public event Action<CCSPlayerController?, LastRequest.LRType>? OnLRWin;
+	public event Action<CCSPlayerController?, LastRequest.LRType>? OnLRLost;
+	public bool IsWarden(CCSPlayerController? player)
     {
         return JailPlugin.IsWarden(player);
     }
@@ -162,13 +165,19 @@ public class WardenService : IWardenService
     {
         return JailPlugin.warden.GetWarden();
     }
-
     
 	public bool IsDeputy(CCSPlayerController? player) {
         return player != null && player.Slot == JailPlugin.warden.deputySlot;
 	}
 	public CCSPlayerController? GetDeputy() {
         return Utilities.GetPlayerFromSlot(JailPlugin.warden.deputySlot);
+	}
+
+	public void LRWin(CCSPlayerController? player, LastRequest.LRType type) {
+		OnLRLost?.Invoke(player, type);
+	}
+	public void LRLost(CCSPlayerController? player, LastRequest.LRType type) {
+		OnLRWin?.Invoke(player, type);
 	}
 }
  
@@ -207,12 +216,14 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public static void WinLR(CCSPlayerController? player,LastRequest.LRType type)
     {
+        WardenService?.LRWin(player, type);
         jailStats.Win(player,type);
     }
 
     public static void LoseLR(CCSPlayerController? player, LastRequest.LRType type)
     {
-        jailStats.Loss(player,type);
+		WardenService?.LRLost(player, type);
+		jailStats.Loss(player,type);
     }
 
     public static void PurgePlayerStats(CCSPlayerController? player)
@@ -223,13 +234,14 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
     public override string ModuleVersion => "v0.4.2 t1";
-
+    public static WardenService? WardenService { get; set; } = null;
     public override void Load(bool hotReload)
     {
         globalCtx = this;
         logs = new Logs(this); 
 
-        Capabilities.RegisterPluginCapability(wardenService,() => new WardenService());
+        WardenService = new WardenService(this);
+        Capabilities.RegisterPluginCapability(wardenService,() => WardenService);
 
         RegisterCommands();
         
