@@ -100,7 +100,18 @@ public partial class Warden
 
     public void Disconnect(CCSPlayerController? player)
     {
-        RemoveIfWarden(player);
+        if (player != null && Config.wardenDeputy) {
+			if (player.Slot == deputySlot) {
+				Chat.LocalizeAnnounce(WARDEN_PREFIX, "deputy.resign", player.PlayerName);
+				deputySlot = INAVLID_SLOT;
+			} else if (IsWarden(player)) {
+                RemoveWarden();
+                SetWarden(deputySlot);
+			    deputySlot = INAVLID_SLOT;
+            }
+		} else {
+			RemoveIfWarden(player);
+		}
     }
 
 
@@ -152,35 +163,40 @@ public partial class Warden
     }
 
     public void Death(CCSPlayerController? player, CCSPlayerController? killer)
+{
+    // player is no longer on server
+    if(!player.IsLegal())
     {
-        // player is no longer on server
-        if(!player.IsLegal())
-        {
-            return;
-        }
-
-        if(Config.wardenForceRemoval)
-        {
-            // handle warden death
-            RemoveIfWarden(player);
-        }
-
-        // mute player
-        mute.Death(player);
-
-        var jailPlayer = JailPlayerFromPlayer(player);
-
-        if(jailPlayer != null)
-        {
-            jailPlayer.RebelDeath(player,killer);
-        }
-
-        // if a t dies we dont need to regive the warden
-        if(player.IsCt())
-        {
-            SetWardenIfLast(true);
-        }
+        return;
     }
+	if (Config.wardenDeputy && player.Slot == deputySlot) {
+		deputySlot = INAVLID_SLOT;
+	}
+
+	if (Config.wardenForceRemoval && IsWarden(player))
+    {// handle warden death
+        RemoveWarden();
+		if (Config.wardenDeputy) { 
+			var deputy = Utilities.GetPlayerFromSlot(deputySlot);
+			if (deputy.IsLegalAliveCT()) {
+				SetWarden(deputySlot);
+				deputySlot = INAVLID_SLOT;
+			}
+		} else {
+			SetWardenIfLast(true);
+		}
+	}
+
+    // mute player
+    mute.Death(player);
+
+    var jailPlayer = JailPlayerFromPlayer(player);
+
+    if(jailPlayer != null)
+    {
+        jailPlayer.RebelDeath(player,killer);
+    }
+}
 
     public void PlayerHurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage,int health)
     {
