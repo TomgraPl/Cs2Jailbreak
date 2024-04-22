@@ -138,6 +138,9 @@ public class JailConfig : BasePluginConfig
 
     [JsonPropertyName("wsd_round")]
     public int wsdRound { get; set; } = 50;
+
+	[JsonPropertyName("warden_deputy")]
+	public bool wardenDeputy { get; set; } = true;
 }
 
 public class WardenService : IWardenService
@@ -159,6 +162,14 @@ public class WardenService : IWardenService
     {
         return JailPlugin.warden.GetWarden();
     }
+
+    
+	public bool IsDeputy(CCSPlayerController? player) {
+        return player != null && player.Slot == JailPlugin.warden.deputySlot;
+	}
+	public CCSPlayerController? GetDeputy() {
+        return Utilities.GetPlayerFromSlot(JailPlugin.warden.deputySlot);
+	}
 }
  
 // main plugin file, controls central hooking
@@ -211,7 +222,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.4.1";
+    public override string ModuleVersion => "v0.4.2 t1";
 
     public override void Load(bool hotReload)
     {
@@ -342,6 +353,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
         AddLocalizedCmd("warden.countdown_cmd","start a countdown",warden.CountdownCmd);
         AddLocalizedCmd("warden.countdown_abort_cmd","abort a countdown",warden.CountdownAbortCmd);  
+
+		AddLocalizedCmd("warden.deputy_cmd", "take deputy", warden.DeputyCmd);
+		AddLocalizedCmd("warden.force_warden_cmd", "set warden", warden.ForceWardenCmd);
 
         // reg lr commands
         AddLocalizedCmd("lr.start_lr_cmd","start an lr",lr.LRCmd);
