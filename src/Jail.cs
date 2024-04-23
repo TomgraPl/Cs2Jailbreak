@@ -141,8 +141,11 @@ public class JailConfig : BasePluginConfig
 
 	[JsonPropertyName("warden_deputy")]
 	public bool wardenDeputy { get; set; } = true;
-}
 
+	[JsonPropertyName("warden_marker")]
+	public bool wardenMarker { get; set; } = true;
+}
+ 
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
 [MinimumApiVersion(193)]
@@ -196,13 +199,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
     public override string ModuleVersion => "v0.4.2 t1";
-    public static WardenService? WardenService { get; set; } = null;
+    public static WardenApi? WardenService { get; set; } = null;
     public override void Load(bool hotReload)
     {
         globalCtx = this;
         logs = new Logs(this); 
 
-        WardenService = new WardenService(this);
+        WardenService = new WardenApi(this);
         Capabilities.RegisterPluginCapability(wardenService,() => WardenService);
 
         RegisterCommands();

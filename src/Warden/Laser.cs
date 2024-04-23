@@ -30,7 +30,7 @@ public partial class Warden
         JailPlayer? jailPlayer = JailPlayerFromPlayer(player);
 
         // draw marker
-        if(IsWarden(player) && player.IsLegal() && jailPlayer != null)
+        if(Config.wardenMarker && IsWarden(player) && player.IsLegal() && jailPlayer != null)
         {
             // make sure we destroy the old marker
             // because this generates alot of ents

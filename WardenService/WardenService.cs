@@ -11,11 +11,11 @@ public interface IWardenService
 	/// <summary>
 	/// Event triggered when LR was won
 	/// </summary>
-	public event Action<CCSPlayerController?, LastRequest.LRType>? OnLRWin;
+	public event Action<CCSPlayerController?, int>? OnLRWin;
 	/// <summary>
 	/// Event triggered when LR was lost
 	/// </summary>
-	public event Action<CCSPlayerController?, LastRequest.LRType>? OnLRLost;
+	public event Action<CCSPlayerController?, int>? OnLRLost;
 	public bool IsWarden(CCSPlayerController? player);
     public CCSPlayerController? GetWarden();
     public void SetWarden(CCSPlayerController player);
