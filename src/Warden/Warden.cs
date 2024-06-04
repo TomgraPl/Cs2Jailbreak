@@ -33,6 +33,10 @@ public partial class Warden
     // Give a player warden
     public void SetWarden(int slot)
     {
+        if (deputySlot == slot) {
+            deputySlot = INVALID_SLOT;
+        }
+
         wardenSlot = slot;
 
         var player = Utilities.GetPlayerFromSlot(wardenSlot);
@@ -40,7 +44,7 @@ public partial class Warden
         // one last saftey check
         if(!player.IsLegal())
         {
-            wardenSlot = INAVLID_SLOT;
+            wardenSlot = INVALID_SLOT;
             return;
         }
 
@@ -53,10 +57,33 @@ public partial class Warden
         // change player color!
         player.SetColour(Color.FromArgb(255, 0, 0, 255));
 
+        // add health
+        JailPlugin._api?.AddHealth("JB - Role", player, 15, true, false);
+
         JailPlugin.logs.AddLocalized("warden.took_warden", player.PlayerName);
     }
+    public void SetDeputy(int slot) {
+		deputySlot = slot;
 
-    public bool IsWarden(CCSPlayerController? player)
+		var player = Utilities.GetPlayerFromSlot(deputySlot);
+
+		// one last saftey check
+		if (!player.IsLegal()) {
+			deputySlot = INVALID_SLOT;
+            Server.PrintToChatAll("dupa");
+			return;
+		}
+
+		Chat.LocalizeAnnounce(WARDEN_PREFIX, "warden.took_deputy", player.PlayerName);
+
+		// add health
+		JailPlugin._api?.AddHealth("JB - Role", player, 5, true, false);
+
+		player.LocalizeAnnounce(WARDEN_PREFIX, "warden.dcommand");
+
+	}
+
+	public bool IsWarden(CCSPlayerController? player)
     {
         if(!player.IsLegal())
         {
@@ -69,7 +96,9 @@ public partial class Warden
     void RemoveWardenInternal()
     {
         //Lib.PlaySoundAll
-        wardenSlot = INAVLID_SLOT;
+        var player = Utilities.GetPlayerFromSlot(wardenSlot);
+        if (player.IsLegal()) JailPlugin._api?.AddHealth("JB - Role", player, 0, true, false);
+		wardenSlot = INVALID_SLOT;
         wardenTimestamp = -1;
     }
 
@@ -122,7 +151,10 @@ public partial class Warden
         if(Config.wardenForceRemoval)
         {
             RemoveWardenInternal();
-        }
+            var player = Utilities.GetPlayerFromSlot(deputySlot);
+            if (player.IsLegal()) JailPlugin._api?.AddHealth("JB - Role", player, 0, true, false);
+            deputySlot = INVALID_SLOT;
+		}
 
         // reset player structs
         foreach(JailPlayer jailPlayer in jailPlayers)
@@ -203,7 +235,7 @@ public partial class Warden
     
     public CCSPlayerController? GetWarden()
     {
-        if(wardenSlot == INAVLID_SLOT)
+        if(wardenSlot == INVALID_SLOT)
         {
             return null;
         }
@@ -213,11 +245,10 @@ public partial class Warden
 
     Countdown<int> chatCountdown = new Countdown<int>();
 
-    const int INAVLID_SLOT = -3;
+    const int INVALID_SLOT = -3;
 
-    public int deputySlot { get; private set; } = INAVLID_SLOT;
-
-    int wardenSlot = INAVLID_SLOT;
+    public int deputySlot { get; private set; } = INVALID_SLOT;
+    int wardenSlot { get; set; } = INVALID_SLOT;
     
     public static String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
 

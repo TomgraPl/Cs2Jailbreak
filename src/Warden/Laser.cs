@@ -55,7 +55,7 @@ public partial class Warden
             return;
         }
 
-        if(wardenSlot == INAVLID_SLOT)
+        if(wardenSlot == INVALID_SLOT)
         {
             return;
         }

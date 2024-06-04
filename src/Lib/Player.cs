@@ -230,7 +230,8 @@ public static class Player
 
     // NOTE: i dont think we call this in the right context
     // OnPostThink doesn't appear to be good enough?
-    static public void HideWeapon(this CCSPlayerController? player)
+    // Unavailable as of css v220
+    /*static public void HideWeapon(this CCSPlayerController? player)
     {
         CCSPlayerPawn? pawn = player.Pawn();
 
@@ -240,7 +241,7 @@ public static class Player
             pawn.SecondaryAddon = 0;
             pawn.AddonBits = 0;
         }
-    }
+    }*/
 
     static public void ListenAll(this CCSPlayerController? player)
     {

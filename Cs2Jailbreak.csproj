@@ -7,10 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CounterStrikeSharp.API" Version="1.0.213" />
+
+    <PackageReference Include="CounterStrikeSharp.API" Version="1.0.239" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.1" />
     <PackageReference Include="MySqlConnector" Version="2.3.1" />
 
+  </ItemGroup>
+  
+  <ItemGroup>
+	<Reference Include="InterOperabilityAPI">
+      <HintPath>..\..\CSS\InterOperabilityAPI\bin\Debug\net8.0\InterOperabilityAPI.dll</HintPath>
+    </Reference>
     <ProjectReference Include="../WardenService/WardenService.csproj" />
   </ItemGroup>
 

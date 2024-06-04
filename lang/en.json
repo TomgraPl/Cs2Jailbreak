@@ -75,8 +75,8 @@
     "warden.doorclose": "Doors were closed by admin",
     "warden.force": "Admin {1} set {0} as warden",
     "deputy.resign": "{0} resigned from deputy",
-    "deputy.take": "{0} became deputy",
     "deputy.fail": "Failed to take deputy",
+    "warden.took_deputy": "{0} became deputy",
 
 
     "logs.ct": "CT",

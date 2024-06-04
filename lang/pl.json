@@ -75,7 +75,7 @@
     "warden.doorclose": "Drzwi zostały zamknięte przez admina",
     "warden.force": "Admin {1} ustawił gracza {0} jako wardena",
     "deputy.resign": "{0} zrezygnował z bycia zastępcą",
-    "deputy.take": "{0} został zastępcą",
+    "warden.took_deputy": "{0} został zastępcą",
     "deputy.fail": "Nie udało Ci się zostać zastępcą",
 
     "logs.ct": "CT",

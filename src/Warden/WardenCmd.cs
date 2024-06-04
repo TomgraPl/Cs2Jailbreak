@@ -17,14 +17,18 @@ using System.Drawing;
 public partial class Warden
 {
         public void DeputyCmd(CCSPlayerController? player, CommandInfo command) {
-        if (player.IsLegalAliveCT() && player.Slot != wardenSlot) {
+        if (player.IsLegalAliveCT() && !IsWarden(player)) {
             if (player.Slot == deputySlot) {
                 Chat.LocalizeAnnounce(WARDEN_PREFIX, "deputy.resign", player.PlayerName);
-                deputySlot = INAVLID_SLOT;
+                deputySlot = INVALID_SLOT;
+				JailPlugin._api?.AddHealth("JB - Role", player, 0, true, false);
 			} else {
-                if (deputySlot == INAVLID_SLOT) {
-					Chat.LocalizeAnnounce(WARDEN_PREFIX, "deputy.take", player.PlayerName);
-					deputySlot = player.Slot;
+                if (deputySlot == INVALID_SLOT) {
+                    if (wardenSlot == INVALID_SLOT) {
+                        TakeWardenCmd(player, command);
+                    } else {
+						SetDeputy(player.Slot);
+					}
 				} else {
                     player.LocalizeAnnounce(WARDEN_PREFIX, "deputy.fail");
                 }
@@ -39,7 +43,7 @@ public partial class Warden
             RemoveWarden();
             if (Config.wardenDeputy) {
                 SetWarden(deputySlot);
-                deputySlot = INAVLID_SLOT;
+                deputySlot = INVALID_SLOT;
             }
         }
     }
@@ -65,7 +69,7 @@ public partial class Warden
         RemoveWarden();
 		if (Config.wardenDeputy) {
 			SetWarden(deputySlot);
-			deputySlot = INAVLID_SLOT;
+			deputySlot = INVALID_SLOT;
 		}
 	}
 
@@ -383,7 +387,7 @@ public partial class Warden
             return;
         }
 
-        if(wardenSlot == INAVLID_SLOT)
+        if(wardenSlot == INVALID_SLOT)
         {
             invoke.LocalizePrefix(WARDEN_PREFIX,"warden.no_warden");
             return;
@@ -437,7 +441,7 @@ public partial class Warden
         }
 
         // check there is no warden
-        else if(wardenSlot != INAVLID_SLOT)
+        else if(wardenSlot != INVALID_SLOT)
         {
             var warden = Utilities.GetPlayerFromSlot(wardenSlot);
 

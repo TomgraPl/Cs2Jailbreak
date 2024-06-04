@@ -66,7 +66,6 @@ public static class Debug
 
             if(col != null)
             {
-                pawn.MyCollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_TRIGGER;
                 col.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_TRIGGER;
             }
         }      
@@ -95,7 +94,8 @@ public static class Debug
             invoke.PrintToChat("hiding weapons");
         }
 
-        invoke.HideWeapon();
+        //Unavailable as of css v220
+        //invoke.HideWeapon();
     }
 
     [RequiresPermissions("@jail/debug")]

@@ -103,11 +103,11 @@ public partial class Warden
         if (player != null && Config.wardenDeputy) {
 			if (player.Slot == deputySlot) {
 				Chat.LocalizeAnnounce(WARDEN_PREFIX, "deputy.resign", player.PlayerName);
-				deputySlot = INAVLID_SLOT;
+				deputySlot = INVALID_SLOT;
 			} else if (IsWarden(player)) {
                 RemoveWarden();
                 SetWarden(deputySlot);
-			    deputySlot = INAVLID_SLOT;
+			    deputySlot = INVALID_SLOT;
             }
 		} else {
 			RemoveIfWarden(player);
@@ -133,7 +133,7 @@ public partial class Warden
             return;
         }
 
-        if(wardenSlot == INAVLID_SLOT && player.IsCt())
+        if(wardenSlot == INVALID_SLOT && player.IsCt())
         {
             SetWarden(player.Slot);
         }
@@ -170,7 +170,7 @@ public partial class Warden
         return;
     }
 	if (Config.wardenDeputy && player.Slot == deputySlot) {
-		deputySlot = INAVLID_SLOT;
+		deputySlot = INVALID_SLOT;
 	}
 
 	if (Config.wardenForceRemoval && IsWarden(player))
@@ -180,7 +180,7 @@ public partial class Warden
 			var deputy = Utilities.GetPlayerFromSlot(deputySlot);
 			if (deputy.IsLegalAliveCT()) {
 				SetWarden(deputySlot);
-				deputySlot = INAVLID_SLOT;
+				deputySlot = INVALID_SLOT;
 			}
 		} else {
 			SetWardenIfLast(true);
