@@ -79,16 +79,10 @@ public partial class Warden
             ChatMenu menu = new("warden.forcemenu");
             foreach (var p in Utilities.GetPlayers()) {
                 menu.AddMenuOption(p.PlayerName, (pl, op) => {
-                    if (p.IsLegal()) {
-                        if (p.TeamNum != 3) {
-                            p.ChangeTeam(CsTeam.CounterTerrorist);
-						}
-                        if (!p.PawnIsAlive) {
-							p.Respawn();
-						}
+                    if (p.IsLegalAliveCT()) {
 						Chat.LocalizeAnnounce(WARDEN_PREFIX, "warden.force", p.PlayerName, player.PlayerName);
 						RemoveWarden();
-						SetWarden(player.Slot);
+						SetWarden(p.Slot);
                     }
                 });
             }
