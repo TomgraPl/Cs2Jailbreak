@@ -81,16 +81,19 @@ public partial class Warden
 	public void ForceWardenCmd(CCSPlayerController? player, CommandInfo command) {
         if (player.IsLegal()) {
             ChatMenu menu = new("warden.forcemenu");
-            foreach (var p in Utilities.GetPlayers()) {
+            foreach (var p in Utilities.GetPlayers().Where(i => i.IsLegalAliveCT())) {
                 menu.AddMenuOption(p.PlayerName, (pl, op) => {
                     if (p.IsLegalAliveCT()) {
 						Chat.LocalizeAnnounce(WARDEN_PREFIX, "warden.force", p.PlayerName, player.PlayerName);
 						RemoveWarden();
 						SetWarden(p.Slot);
+                    } else {
+                        player.Localize("Jail.InvalidPlayer");
                     }
                 });
             }
-            MenuManager.OpenChatMenu(player, menu);
+            menu.PostSelectAction = PostSelectAction.Close;
+            menu.Open(player);
         }
 	}
 
