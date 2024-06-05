@@ -174,6 +174,7 @@ public partial class Warden
 
     void SetWardenIfLast(bool onDeath = false)
     {
+        return;/*
 		// dont override the warden if there is no death removal
 		// also don't do it if an event is running because it's annoying
 		if (!Config.wardenForceRemoval || JailPlugin.EventActive()) {
@@ -193,7 +194,7 @@ public partial class Warden
         
             int slot = ctPlayers[0].Slot;
             SetWarden(slot);
-        }
+        }*/
     }
 
     public void SetupPlayerGuns(CCSPlayerController? player)
@@ -255,6 +256,7 @@ public partial class Warden
     Countdown<int> chatCountdown = new Countdown<int>();
 	CSTimer.Timer? tmpMuteTimer = null;
 	long tmpMuteTimestamp = 0;
+	CSTimer.Timer? openCellTimer = null;
 
 	const int INVALID_SLOT = -3;
 

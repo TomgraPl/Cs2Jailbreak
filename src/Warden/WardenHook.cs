@@ -53,15 +53,20 @@ public partial class Warden
         }
 
         SetWardenIfLast();
-    /*
-        ctHandicap = ((Lib.CtCount() * 3) <= Lib.TCount()) && Config.ctHandicap;
+        openCellTimer = JailPlugin.globalCtx.AddTimer(60.0f, () => {
+			Entity.ForceOpen();
+            Server.NextFrame(() => openCellTimer = null);
+		}, CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+		/*
+			ctHandicap = ((Lib.CtCount() * 3) <= Lib.TCount()) && Config.ctHandicap;
 
-        if(ctHandicap)
-        {
-            Chat.Announce(WARDEN_PREFIX,"CT ratio is too low, handicap enabled for this round");
-        }
-    */
-    }
+			if(ctHandicap)
+			{
+				Chat.Announce(WARDEN_PREFIX,"CT ratio is too low, handicap enabled for this round");
+			}
+		*/
+
+	}
 
     public void TakeDamage(CCSPlayerController? victim,CCSPlayerController? attacker, ref float damage)
     {
@@ -85,6 +90,10 @@ public partial class Warden
         mute.RoundEnd();
         warday.RoundEnd();
         PurgeRound();
+        if (openCellTimer != null) {
+            openCellTimer.Kill();
+            openCellTimer = null;
+        }
     }
 
 
