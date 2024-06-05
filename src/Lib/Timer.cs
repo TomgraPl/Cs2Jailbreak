@@ -107,12 +107,10 @@ static public class Timer
         JailPlugin.globalCtx.AddTimer(delay,() => Player.RespawnCallback(player.Slot),CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
     }
 
-    // ent
-    static public void RemoveDelay(this CEntityInstance entity, float delay, String name)
-    {
-        // remove projectile
-        if(entity.DesignerName == name)
-        {
+	// ent
+	static public void RemoveDelay(this CEntityInstance? entity, float delay, String name) {
+		// remove projectile
+		if (entity != null && entity.DesignerName == name) {
             int index = (int)entity.Index;
 
             JailPlugin.globalCtx.AddTimer(delay,() => 
@@ -125,8 +123,7 @@ static public class Timer
 
     static public void GiveEventNadeDelay(this CCSPlayerController? target,float delay, String name)
     {
-        if(!target.IsLegalAlive())
-        {
+		if (!target.IsLegalAlive() || !JailPlugin.EventActive()) {
             return;
         }
 

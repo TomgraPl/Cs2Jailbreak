@@ -165,9 +165,9 @@ public partial class Warden
 
     void SetWardenIfLast(bool onDeath = false)
     {
-        // dont override the warden if there is no death removal
-        if(!Config.wardenForceRemoval)
-        {
+		// dont override the warden if there is no death removal
+		// also don't do it if an event is running because it's annoying
+		if (!Config.wardenForceRemoval || JailPlugin.EventActive()) {
             return;
         }
         // if there is only one ct automatically give them warden!
@@ -244,8 +244,10 @@ public partial class Warden
     }
 
     Countdown<int> chatCountdown = new Countdown<int>();
+	CSTimer.Timer? tmpMuteTimer = null;
+	long tmpMuteTimestamp = 0;
 
-    const int INVALID_SLOT = -3;
+	const int INVALID_SLOT = -3;
 
     public int deputySlot { get; private set; } = INVALID_SLOT;
     int wardenSlot { get; set; } = INVALID_SLOT;

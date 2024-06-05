@@ -18,7 +18,7 @@ using CounterStrikeSharp.API.Core.Capabilities;
  
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
-[MinimumApiVersion(193)]
+[MinimumApiVersion(239)]
 public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // Global event settings, used to filter plugin activits
@@ -69,7 +69,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.4.2b t8";
+    public override string ModuleVersion => "v0.4.5c t8";
     public static WardenApi? WardenService { get; set; } = null;
     public override void Load(bool hotReload)
     {
@@ -204,7 +204,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         AddLocalizedCmd("warden.give_pardon_cmd","give t a pardon",warden.GivePardonCmd);
 
         AddLocalizedCmd("warden.countdown_cmd","start a countdown",warden.CountdownCmd);
-        AddLocalizedCmd("warden.countdown_abort_cmd","abort a countdown",warden.CountdownAbortCmd);  
+        AddLocalizedCmd("warden.countdown_abort_cmd","abort a countdown",warden.CountdownAbortCmd);
+
+		AddLocalizedCmd("warden.mute_cmd", "do a warden mute", warden.WardenMuteCmd);
 
 		AddLocalizedCmd("warden.deputy_cmd", "take deputy", warden.DeputyCmd);
 		AddLocalizedCmd("warden.force_warden_cmd", "set warden", warden.ForceWardenCmd);

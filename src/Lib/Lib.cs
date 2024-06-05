@@ -75,7 +75,7 @@ public static class Lib
     {
         foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            if(player.IsT())
+            if(player.IsT() && !player.IsVip())
             {
                 player.Mute();
             }
@@ -91,12 +91,14 @@ public static class Lib
         }
     }
 
-    static public void UnMuteAll()
+    static public void UnMuteAll(bool roundEnd = false)
     {
         foreach(CCSPlayerController player in Lib.GetPlayers())
         {
-            player.UnMute();
-        }
+			if (player.IsLegalAlive() || roundEnd) {
+				player.UnMute();
+			}
+		}
     }
 
     static public long CurTimestamp()
@@ -140,7 +142,7 @@ public static class Lib
     static public void RespawnPlayers()
     {
         // 1up all dead players
-        foreach(CCSPlayerController player in Lib.GetPlayers())
+        foreach(CCSPlayerController player in Lib.GetActivePlayers())
         {
             if(!player.IsLegalAlive())
             {
@@ -190,7 +192,12 @@ public static class Lib
         return players.FindAll(player => player.IsLegalAlive() && player.IsT());;
     }
 
-    static public int AliveTCount()
+	static public List<CCSPlayerController> GetActivePlayers() {
+		List<CCSPlayerController> players = Lib.GetPlayers();
+		return players.FindAll(player => player.IsT() || player.IsCt()); ;
+	}
+
+	static public int AliveTCount()
     {
         return GetAliveT().Count;
     }

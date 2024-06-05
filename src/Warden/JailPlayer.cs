@@ -355,7 +355,7 @@ public class JailPlayer
         // log any ct damage
         else if (attacker.IsCt())
         {
-            //Lib.PrintConsoleAll($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
+			Chat.PrintConsoleAll($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
         }
     }
 

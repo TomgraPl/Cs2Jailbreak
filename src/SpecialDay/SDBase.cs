@@ -154,7 +154,8 @@ public abstract class SDBase
     {
         foreach(CCSPlayerController player in Lib.GetAlivePlayers())
         {
-            CleanupPlayer(player);
+			player.StripWeapons();
+			CleanupPlayer(player);
         }       
     }
 
@@ -170,7 +171,9 @@ public abstract class SDBase
         JailPlugin.globalCtx.AddTimer(delay, () =>
         {
             CCSPlayerController? target = Utilities.GetPlayerFromSlot(victimSlot);
-            target.Respawn();
+			if (target.IsLegal()) {
+				target.Respawn();
+			}
 
         },CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
 

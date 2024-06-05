@@ -34,16 +34,16 @@ public static class Player
         }
     }
 
-    static public void Slay(this CCSPlayerController? player)
-    {
-        if(player.IsLegalAlive())
-        {
-            player.PlayerPawn.Value?.CommitSuicide(true, true);
-        }
-    }
+	static public void Slay(this CCSPlayerController? player) {
+		// Why does slay now count as damage, but doesn't set the kill state fast enough?
+		if (player.IsLegalAlive() && player.GetHealth() > 0) {
+			player.PlayerPawn.Value?.CommitSuicide(true, true);
+			player.SetHealth(0);
+		}
+	}
 
-    // Cheers Kill for suggesting method extenstions
-    static public bool IsLegal([NotNullWhen(true)] this CCSPlayerController? player)
+	// Cheers Kill for suggesting method extenstions
+	static public bool IsLegal([NotNullWhen(true)] this CCSPlayerController? player)
     {
         return player != null && player.IsValid && player.PlayerPawn.IsValid && player.PlayerPawn.Value?.IsValid == true; 
     }
@@ -53,17 +53,15 @@ public static class Player
         return player.IsLegal() && player.Connected == PlayerConnectedState.PlayerConnected;
     }
 
-    static public bool IsT(this CCSPlayerController? player)
-    {
-        return IsLegal(player) && player.TeamNum == TEAM_T;
-    }
+	static public bool IsT([NotNullWhen(true)] this CCSPlayerController? player) {
+		return IsLegal(player) && player.TeamNum == TEAM_T;
+	}
 
-    static public bool IsCt(this CCSPlayerController? player)
-    {
-        return IsLegal(player) && player.TeamNum == TEAM_CT;
-    }
+	static public bool IsCt([NotNullWhen(true)] this CCSPlayerController? player) {
+		return IsLegal(player) && player.TeamNum == TEAM_CT;
+	}
 
-    static public bool IsLegalAlive([NotNullWhen(true)] this CCSPlayerController? player)
+	static public bool IsLegalAlive([NotNullWhen(true)] this CCSPlayerController? player)
     {
         return player.IsConnected() && player.PawnIsAlive && player.PlayerPawn.Value?.LifeState == (byte)LifeState_t.LIFE_ALIVE;
     }
@@ -207,7 +205,15 @@ public static class Player
         }
     }
 
-    static public bool IsGenericAdmin(this CCSPlayerController? player)
+	static public bool IsVip(this CCSPlayerController? player) {
+		if (!player.IsLegal()) {
+			return false;
+		}
+
+		return AdminManager.PlayerHasPermissions(player, new String[] { "@jb/vip" });
+	}
+
+	static public bool IsGenericAdmin(this CCSPlayerController? player)
     {
         if(!player.IsLegal())
         {
@@ -228,22 +234,23 @@ public static class Player
     }
 
 
-    // NOTE: i dont think we call this in the right context
-    // OnPostThink doesn't appear to be good enough?
-    // Unavailable as of css v220
-    /*static public void HideWeapon(this CCSPlayerController? player)
+	// NOTE: i dont think we call this in the right context
+	// OnPostThink doesn't appear to be good enough?
+	// Unavailable as of css v220
+	static public void HideWeapon(this CCSPlayerController? player)
     {
-        CCSPlayerPawn? pawn = player.Pawn();
+        Server.PrintToChatAll("Hide weapon uimpl");
+		/*CCSPlayerPawn? pawn = player.Pawn();
 
         if(pawn != null)
         {
             pawn.PrimaryAddon = 0;
             pawn.SecondaryAddon = 0;
             pawn.AddonBits = 0;
-        }
-    }*/
+        }*/
+	}
 
-    static public void ListenAll(this CCSPlayerController? player)
+	static public void ListenAll(this CCSPlayerController? player)
     {
         if(!player.IsLegal())
         {

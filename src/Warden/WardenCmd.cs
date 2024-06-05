@@ -12,6 +12,7 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Admin;
 using System.Drawing;
+using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 
 public partial class Warden
@@ -136,7 +137,11 @@ public partial class Warden
             if(Int32.TryParse(command.ArgByIndex(2),out int delayOpt))
             {
                 delay = delayOpt;
-            }       
+				if (delayOpt > 200) {
+					player.LocalizePrefix(WARDEN_PREFIX, "warden.countdown_max_delay");
+					return;
+				}
+			}       
         }
 
         if(!warday.StartWarday(location,delay))
@@ -178,7 +183,12 @@ public partial class Warden
             if(Int32.TryParse(command.ArgByIndex(1),out int delayOpt))
             {
                 delay = delayOpt;
-            }   
+				// Thanks TICHO
+				if (delayOpt > 200) {
+					player.LocalizePrefix(WARDEN_PREFIX, "warden.countdown_max_delay");
+					return;
+				}
+			}   
 
             else
             {
@@ -257,7 +267,49 @@ public partial class Warden
         return false;
     }
 
-    public void GiveT(CCSPlayerController? invoke, String name, Action<CCSPlayerController, ChatMenuOption> callback,Func<CCSPlayerController?,bool> filter)
+	public void WardenMuteCmd(CCSPlayerController? invoke, CommandInfo cmd) {
+		// make sure we are actually the warden
+		if (!IsWarden(invoke)) {
+			invoke.Announce(WARDEN_PREFIX, "you must be warden to use a warden mute");
+			return;
+		}
+
+		if (tmpMuteTimer != null) {
+			invoke.Announce(WARDEN_PREFIX, "mute is already active");
+			return;
+		}
+
+		long remain = 60 - (Lib.CurTimestamp() - tmpMuteTimestamp);
+
+		// make sure we cant spam this
+		if (remain > 0) {
+			invoke.Announce(WARDEN_PREFIX, $"Warden mute cannot be used for another {remain} seconds");
+			return;
+		}
+
+		// mute everyone that isnt the warden
+		foreach (CCSPlayerController player in Lib.GetAlivePlayers()) {
+			if (!IsWarden(player)) {
+				player.Mute();
+			}
+		}
+
+		Chat.Announce(WARDEN_PREFIX, "everyone apart from the warden is muted for 10 seconds!");
+
+		tmpMuteTimer = JailPlugin.globalCtx.AddTimer(10.0f, UnmuteTmp, CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+	}
+
+	public void UnmuteTmp() {
+		Chat.Announce(WARDEN_PREFIX, "warden mute is now over!");
+
+		Lib.UnMuteAll();
+		tmpMuteTimer = null;
+
+		// re grab the timestmap for the cooldown
+		tmpMuteTimestamp = Lib.CurTimestamp();
+	}
+
+	public void GiveT(CCSPlayerController? invoke, String name, Action<CCSPlayerController, ChatMenuOption> callback,Func<CCSPlayerController?,bool> filter)
     {
         if(!IsWarden(invoke))
         {
@@ -278,11 +330,13 @@ public partial class Warden
 
         CCSPlayerController? player = Utilities.GetPlayerFromSlot(colourSlot);
 
-        Color colour = Lib.COLOUR_CONFIG_MAP[option.Text];
+		if (player.IsLegalAlive()) {
+			Color colour = Lib.COLOUR_CONFIG_MAP[option.Text];
 
-        Chat.Announce(WARDEN_PREFIX,$"Setting {player.PlayerName} colour to {option.Text}");
-        player.SetColour(colour);
-    }
+			Chat.Announce(WARDEN_PREFIX, $"Setting {player.PlayerName} colour to {option.Text}");
+			player.SetColour(colour);
+		}
+	}
 
     public void ColourPlayerCallback(CCSPlayerController? invoke, ChatMenuOption option)
     {
@@ -439,8 +493,10 @@ public partial class Warden
         {
             var warden = Utilities.GetPlayerFromSlot(wardenSlot);
 
-            player.LocalizePrefix(WARDEN_PREFIX,"warden.warden_taken",warden.PlayerName);
-        }
+			if (warden.IsLegal()) {
+				player.LocalizePrefix(WARDEN_PREFIX, "warden.warden_taken", warden.PlayerName);
+			}
+		}
 
         // player is valid to take warden
         else
