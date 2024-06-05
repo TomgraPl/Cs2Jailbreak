@@ -69,7 +69,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.4.5c t8";
+    public override string ModuleVersion => "v0.4.5c t9";
     public static WardenApi? WardenService { get; set; } = null;
     public override void Load(bool hotReload)
     {
@@ -100,17 +100,17 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
 	void LocalizePrefix()
     {
-        LastRequest.LR_PREFIX = Chat.Localize("lr.lr_prefix");
-        Entity.DOOR_PREFIX = Chat.Localize("warden.door_prefix");
+        LastRequest.LR_PREFIX = Chat.Localize(/*"lr.lr_prefix"*/"Jail.Prefix");
+        Entity.DOOR_PREFIX = Chat.Localize(/*"warden.door_prefix"*/"Jail.Prefix");
 
-        SpecialDay.SPECIALDAY_PREFIX = Chat.Localize("sd.sd_prefix");
-        JailPlayer.REBEL_PREFIX = Chat.Localize("rebel.rebel_prefix");
+        SpecialDay.SPECIALDAY_PREFIX = Chat.Localize(/*"sd.sd_prefix"*/"Jail.Prefix");
+        JailPlayer.REBEL_PREFIX = Chat.Localize(/*"rebel.rebel_prefix"*/ "Jail.Prefix");
 
-        Mute.MUTE_PREFIX = Chat.Localize("mute.mute_prefix");
-        Warden.TEAM_PREFIX = Chat.Localize("warden.team_prefix");
+        Mute.MUTE_PREFIX = Chat.Localize(/*"mute.mute_prefix"*/"Jail.Prefix");
+        Warden.TEAM_PREFIX = Chat.Localize(/*"warden.team_prefix"*/ "Jail.Prefix");
         
-        Warday.WARDAY_PREFIX = Chat.Localize("warday.warday_prefix");
-        Warden.WARDEN_PREFIX = Chat.Localize("warden.warden_prefix");    
+        Warday.WARDAY_PREFIX = Chat.Localize(/*"warday.warday_prefix"*/ "Jail.Prefix");
+        Warden.WARDEN_PREFIX = Chat.Localize(/*"warden.warden_prefix"*/ "Jail.Prefix");    
     }
 
     void StatDBReload()

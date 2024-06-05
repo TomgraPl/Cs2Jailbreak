@@ -260,8 +260,8 @@ public partial class Warden
 
     public int deputySlot { get; private set; } = INVALID_SLOT;
     int wardenSlot { get; set; } = INVALID_SLOT;
-    
-    public static String WARDEN_PREFIX = $" {ChatColors.Green}[WARDEN]: {ChatColors.White}";
+
+    public static String WARDEN_PREFIX = JailPlugin.Localize("Jail.Prefix");
 
     long wardenTimestamp = -1;
 
