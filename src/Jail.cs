@@ -104,10 +104,10 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         Entity.DOOR_PREFIX = Chat.Localize(/*"warden.door_prefix"*/"Jail.Prefix");
 
         SpecialDay.SPECIALDAY_PREFIX = Chat.Localize(/*"sd.sd_prefix"*/"Jail.Prefix");
-        JailPlayer.REBEL_PREFIX = Chat.Localize(/*"rebel.rebel_prefix"*/ "Jail.Prefix");
+        JailPlayer.REBEL_PREFIX = Chat.Localize("rebel.rebel_prefix");
 
         Mute.MUTE_PREFIX = Chat.Localize(/*"mute.mute_prefix"*/"Jail.Prefix");
-        Warden.TEAM_PREFIX = Chat.Localize(/*"warden.team_prefix"*/ "Jail.Prefix");
+        Warden.TEAM_PREFIX = Chat.Localize("warden.team_prefix");
         
         Warday.WARDAY_PREFIX = Chat.Localize(/*"warday.warday_prefix"*/ "Jail.Prefix");
         Warden.WARDEN_PREFIX = Chat.Localize(/*"warden.warden_prefix"*/ "Jail.Prefix");    
