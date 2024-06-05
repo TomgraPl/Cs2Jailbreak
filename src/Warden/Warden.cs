@@ -61,7 +61,8 @@ public partial class Warden
         JailPlugin._api?.AddHealth("JB - Role", player, 15, true, false);
 
         JailPlugin.logs.AddLocalized("warden.took_warden", player.PlayerName);
-    }
+		Lib.PlaySoundAll("sounds/jaileng/warden.vsnd");
+	}
     public void SetDeputy(int slot) {
 		deputySlot = slot;
 
@@ -103,7 +104,7 @@ public partial class Warden
 
 	void RemoveWardenInternal()
     {
-        //Lib.PlaySoundAll
+        Lib.PlaySoundAll("sounds/jaileng/unwarden.vsnd");
         var player = Utilities.GetPlayerFromSlot(wardenSlot);
         if (player.IsLegal()) JailPlugin._api?.AddHealth("JB - Role", player, 0, true, false);
 		wardenSlot = INVALID_SLOT;
