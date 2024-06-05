@@ -13,6 +13,9 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Admin;
 using System.Drawing;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
+using System.Numerics;
+using System.Runtime;
+using System;
 
 
 public partial class Warden
@@ -91,16 +94,26 @@ public partial class Warden
         }
 	}
 
-	[RequiresPermissions("@css/generic")]
-    public void ForceOpenCmd(CCSPlayerController? invoke, CommandInfo command)
+    public void ForceOpenCmd(CCSPlayerController? player, CommandInfo command)
     {
+		if (player != null && player.IsValid && !player.IsBot) {
+			if (!AdminManager.PlayerHasPermissions(player, "@css/generic") && !IsWarden(player) && !IsDeputy(player)) {
+				player.Localize("Jail.NoPermission");
+				return;
+			}
+		}
 		Chat.LocalizeAnnounce(WARDEN_PREFIX, "warden.dooropen");
 		Entity.ForceOpen();
     }
 
 
-    [RequiresPermissions("@css/generic")]
-    public void ForceCloseCmd(CCSPlayerController? invoke, CommandInfo command) {
+    public void ForceCloseCmd(CCSPlayerController? player, CommandInfo command) {
+		if (player != null && player.IsValid && !player.IsBot) {
+			if (!AdminManager.PlayerHasPermissions(player, "@css/generic") && !IsWarden(player) && !IsDeputy(player)) {
+				player.Localize("Jail.NoPermission");
+				return;
+			}
+		}
 		Chat.LocalizeAnnounce(WARDEN_PREFIX, "warden.doorclose");
 		Entity.ForceClose();
     }

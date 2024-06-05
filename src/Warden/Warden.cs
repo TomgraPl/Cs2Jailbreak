@@ -93,7 +93,15 @@ public partial class Warden
         return player.Slot == wardenSlot;
     }
 
-    void RemoveWardenInternal()
+	public bool IsDeputy(CCSPlayerController? player) {
+		if (!player.IsLegal()) {
+			return false;
+		}
+
+		return player.Slot == deputySlot;
+	}
+
+	void RemoveWardenInternal()
     {
         //Lib.PlaySoundAll
         var player = Utilities.GetPlayerFromSlot(wardenSlot);
