@@ -54,6 +54,9 @@ public partial class Warden
 
         wardenTimestamp = Lib.CurTimestamp();
 
+        // set model
+        player.SetModel(WardenModelPath);
+
         // change player color!
         player.SetColour(Color.FromArgb(255, 0, 0, 255));
 
@@ -117,6 +120,7 @@ public partial class Warden
 
         if(player.IsLegal())
         {
+            if (player.Team == CsTeam.CounterTerrorist) player.SetModel(CTModelPath);
             player.SetColour(Player.DEFAULT_COLOUR);
             Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.removed",player.PlayerName);
             JailPlugin.logs.AddLocalized("warden.removed", player.PlayerName);
@@ -279,4 +283,6 @@ public partial class Warden
     public Warday warday = new Warday();
     public Block block = new Block();
     public Mute mute = new Mute();
+	public static string WardenModelPath { get; set; } = "characters/models/nozb1/jail_police_player_model/jail_police_player_model.vmdl";
+	public static string CTModelPath { get; set; } = "characters/models/nozb1/policeman_player_model/policeman_player_model.vmdl";
 };

@@ -69,7 +69,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.4.5c t9";
+    public override string ModuleVersion => "v0.4.5c t10";
     public static WardenApi? WardenService { get; set; } = null;
     public override void Load(bool hotReload)
     {
@@ -150,6 +150,10 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
             lr.EntCreated(entity);
             sd.EntCreated(entity);
         });
+        RegisterListener<Listeners.OnMapStart>((mapName) => {
+			Server.PrecacheModel(Warden.CTModelPath);
+			Server.PrecacheModel(Warden.WardenModelPath);
+		});
     }
 
     void AddLocalizedCmd(String base_name,String desc,CommandInfo.CommandCallback callback)

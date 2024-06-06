@@ -191,9 +191,17 @@ public static class Player
         {
             player.GiveWeapon("knife");
         }
-    }
+	}
 
-    static public void SetColour(this CCSPlayerController? player, Color colour)
+	static public void SetModel(this CCSPlayerController? player, string path) {
+		CCSPlayerPawn? pawn = player.Pawn();
+
+		if (pawn != null && player.IsLegalAlive()) {
+			pawn.SetModel(path);
+		}
+	}
+
+	static public void SetColour(this CCSPlayerController? player, Color colour)
     {
         CCSPlayerPawn? pawn = player.Pawn();
 
