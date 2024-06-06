@@ -108,7 +108,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         Warden.TEAM_PREFIX = Chat.Localize("warden.team_prefix");
         
         Warday.WARDAY_PREFIX = Chat.Localize(/*"warday.warday_prefix"*/ "Jail.Prefix");
-        Warden.WARDEN_PREFIX = Chat.Localize(/*"warden.warden_prefix"*/ "Jail.Prefix");    
+        Warden.WARDEN_PREFIX = Chat.Localize("warden.warden_prefix");    
     }
 
     void StatDBReload()
