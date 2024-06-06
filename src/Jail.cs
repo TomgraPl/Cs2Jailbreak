@@ -50,15 +50,13 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         globalCtx.isEventActive = false;
     }
 
-    public static void WinLR(CCSPlayerController? player,LastRequest.LRType type)
-    {
-        WardenService?.LRWin(player, type);
+    public static void WinLR(CCSPlayerController? player,LastRequest.LRType type) {
+		WardenService?.LRLost(player, type);
         jailStats.Win(player,type);
     }
 
-    public static void LoseLR(CCSPlayerController? player, LastRequest.LRType type)
-    {
-		WardenService?.LRLost(player, type);
+    public static void LoseLR(CCSPlayerController? player, LastRequest.LRType type) {
+		WardenService?.LRWin(player, type);
 		jailStats.Loss(player,type);
     }
 
@@ -69,7 +67,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.4.5c t10";
+    public override string ModuleVersion => "v0.4.5c t11";
     public static WardenApi? WardenService { get; set; } = null;
     public override void Load(bool hotReload)
     {
