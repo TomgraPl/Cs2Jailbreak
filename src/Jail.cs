@@ -67,7 +67,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.4.5c t11";
+    public override string ModuleVersion => "v0.4.5c t12";
     public static WardenApi? WardenService { get; set; } = null;
     public override void Load(bool hotReload)
     {
@@ -344,6 +344,11 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
         if(player.IsLegal())
         {
             warden.Voice(player);
+            if (IsWarden(player)) {
+                foreach(var p in Utilities.GetPlayers().Where(i => i.IsLegal())) {
+                    p.PrintToCenterAlert(Localize("Jail.WardenSpeakingAlert", player.PlayerName));
+                }
+            }
         }
     }
 
