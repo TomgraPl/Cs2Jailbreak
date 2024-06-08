@@ -273,7 +273,7 @@ public static class Lib
     public static readonly QAngle ANGLE_ZERO = new QAngle(0.0f,0.0f,0.0f);
 
     static ConVar? blockCvar = ConVar.Find("mp_solid_teammates");
-    static ConVar? ff = ConVar.Find("mp_teammates_are_enemies");
+    static ConVar? ff { get; set; } = ConVar.Find("mp_teammates_are_enemies");
 
     public const int HITGROUP_HEAD = 0x1;
 }

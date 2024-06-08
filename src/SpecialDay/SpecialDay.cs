@@ -342,7 +342,7 @@ public partial class SpecialDay
 
     SDBase? activeSD = null;
 
-    bool overrideFF = false;
+    public bool overrideFF { get; set; } = false;
 
     Countdown<int> countdown = new Countdown<int>();
 

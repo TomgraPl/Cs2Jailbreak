@@ -15,6 +15,7 @@ using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 using System.Text.Json.Serialization;
 using CounterStrikeSharp.API.Core.Capabilities;
+using SimpleAdminAPI;
  
 // main plugin file, controls central hooking
 // defers to warden, lr and sd
@@ -27,7 +28,9 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public JailConfig Config  { get; set; } = new JailConfig();
     public static IInterOperabilityAPI? _api;
+	public static ISimpleAdminAPI? _api2;
 	public static PluginCapability<IInterOperabilityAPI> IOCapability { get; } = new("InterOperability:Api");
+	public static PluginCapability<ISimpleAdminAPI> SACapability { get; } = new("SimpleAdmin:Api");
 	public static PluginCapability<IWardenService> wardenService {get; } = new ("jailbreak:warden_service");
 
     public static bool IsWarden(CCSPlayerController? player)
@@ -67,7 +70,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.4.5c t12";
+    public override string ModuleVersion => "v0.4.5c t14";
     public static WardenApi? WardenService { get; set; } = null;
     public override void Load(bool hotReload)
     {
@@ -93,7 +96,8 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     }
 	public override void OnAllPluginsLoaded(bool hotReload) {
         _api = IOCapability.Get();
-        if (_api == null) return;
+		_api2 = SACapability.Get();
+		if (_api == null || _api2 == null) return;
 	}
 
 	void LocalizePrefix()

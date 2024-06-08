@@ -195,8 +195,7 @@ public static class Player
 
 	static public void SetModel(this CCSPlayerController? player, string path) {
 		CCSPlayerPawn? pawn = player.Pawn();
-
-		if (pawn != null && player.IsLegalAlive()) {
+		if (pawn != null) {
 			pawn.SetModel(path);
 		}
 	}
@@ -258,51 +257,49 @@ public static class Player
         }*/
 	}
 
-	static public void ListenAll(this CCSPlayerController? player)
-    {
-        if(!player.IsLegal())
-        {
-            return;
-        }
-
-        player.VoiceFlags |= VoiceFlags.ListenAll;
-        player.VoiceFlags &= ~VoiceFlags.ListenTeam;
+	static public void ListenAll(this CCSPlayerController? player) {
+		if (player.IsLegal()) {
+			if (JailPlugin._api2?.IsMuted(player) ?? false) {
+				player.VoiceFlags |= VoiceFlags.Muted;
+			} else {
+				player.VoiceFlags |= VoiceFlags.ListenAll;
+				player.VoiceFlags &= ~VoiceFlags.ListenTeam;
+			}
+		}
     }
 
-    static public void ListenTeam(this CCSPlayerController? player)
-    {
-        if(!player.IsLegal())
-        {
-            return;
-        }
+    static public void ListenTeam(this CCSPlayerController? player) {
+		if (player.IsLegal()) {
+			if (JailPlugin._api2?.IsMuted(player) ?? false) {
+				player.VoiceFlags |= VoiceFlags.Muted;
+			} else {
+				player.VoiceFlags &= ~VoiceFlags.ListenAll;
+				player.VoiceFlags |= VoiceFlags.ListenTeam;
+			}
+		}
 
-        player.VoiceFlags &= ~VoiceFlags.ListenAll;
-        player.VoiceFlags |= VoiceFlags.ListenTeam;
     }
 
-    static public void Mute(this CCSPlayerController? player)
-    {
-        if(!player.IsLegal())
-        {
-            return;
-        }
+    static public void Mute(this CCSPlayerController? player) {
+		if (player.IsLegal()) {
+			if (!player.IsGenericAdmin()) {
+				player.VoiceFlags |= VoiceFlags.Muted;
+			}
+		}
 
-        // admins cannot be muted by the plugin
-        if(!player.IsGenericAdmin())
-        {
-            player.VoiceFlags |= VoiceFlags.Muted;
-        }
+		// admins cannot be muted by the plugin
+		
     }
 
     // TODO: this needs to be hooked into the ban system that becomes used
-    static public void UnMute(this CCSPlayerController? player)
-    {
-        if(!player.IsLegal())
-        {
-            return;
-        }
-
-        player.VoiceFlags &= ~VoiceFlags.Muted;
+    static public void UnMute(this CCSPlayerController? player) {
+		if (player.IsLegal()){
+            if (JailPlugin._api2?.IsMuted(player) ?? false) {
+				player.VoiceFlags |= VoiceFlags.Muted;
+			} else {
+				player.VoiceFlags &= ~VoiceFlags.Muted;
+			}
+		}		
     }
 
 

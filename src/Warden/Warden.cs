@@ -31,8 +31,7 @@ public partial class Warden
     }
 
     // Give a player warden
-    public void SetWarden(int slot)
-    {
+    public void SetWarden(int slot) {
         if (deputySlot == slot) {
             deputySlot = INVALID_SLOT;
         }
@@ -42,15 +41,14 @@ public partial class Warden
         var player = Utilities.GetPlayerFromSlot(wardenSlot);
 
         // one last saftey check
-        if(!player.IsLegal())
-        {
+        if (!player.IsLegal()) {
             wardenSlot = INVALID_SLOT;
             return;
         }
 
-        Chat.LocalizeAnnounce(WARDEN_PREFIX,"warden.took_warden",player.PlayerName);
+        Chat.LocalizeAnnounce(WARDEN_PREFIX, "warden.took_warden", player.PlayerName);
 
-        player.LocalizeAnnounce(WARDEN_PREFIX,"warden.wcommand");
+        player.LocalizeAnnounce(WARDEN_PREFIX, "warden.wcommand");
 
         wardenTimestamp = Lib.CurTimestamp();
 
@@ -58,7 +56,9 @@ public partial class Warden
         player.SetModel(WardenModelPath);
 
         // change player color!
-        player.SetColour(Color.FromArgb(255, 0, 0, 255));
+        Server.RunOnTick(Server.TickCount + 64, () => {
+            if (IsWarden(player)) player.SetColour(Color.FromArgb(255, 0, 0, 255));
+        });
 
         // add health
         JailPlugin._api?.AddHealth("JB - Role", player, 15, true, false);

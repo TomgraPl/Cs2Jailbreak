@@ -18,6 +18,9 @@
 	<Reference Include="InterOperabilityAPI">
       <HintPath>..\..\..\CSS\InterOperabilityAPI\bin\Debug\net8.0\InterOperabilityAPI.dll</HintPath>
     </Reference>
+	<Reference Include="SimpleAdminAPI">
+      <HintPath>..\..\..\CSS\SimpleAdminAPI\bin\Debug\net8.0\SimpleAdminAPI.dll</HintPath>
+    </Reference>
     <ProjectReference Include="../WardenService/WardenService.csproj" />
   </ItemGroup>
 
