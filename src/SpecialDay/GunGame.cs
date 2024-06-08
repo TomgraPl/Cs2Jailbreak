@@ -120,7 +120,7 @@ public class SDGunGame : SDBase
         "p90",
         "deagle",
         "m249",
-        "mp5sd",
+        "mp9",
         "galilar",
         "sg556",
         "bizon",
