@@ -56,9 +56,9 @@ public partial class Warden
         player.SetModel(WardenModelPath);
 
         // change player color!
-        Server.RunOnTick(Server.TickCount + 64, () => {
+        /*Server.RunOnTick(Server.TickCount + 64, () => {
             if (IsWarden(player)) player.SetColour(Color.FromArgb(255, 0, 0, 255));
-        });
+        });*/
 
         // add health
         JailPlugin._api?.AddHealth("JB - Role", player, 15, true, false);
