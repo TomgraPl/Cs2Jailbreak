@@ -171,7 +171,7 @@ public static class Weapon
         {"M3","nova"},
         {"P90","p90"},
         {"M249","m249"},
-        {"MP(","mp9"},
+        {"MP9","mp9"},
         {"FAL","galilar"},
         {"SG556","sg556"},
         {"BIZON","bizon"},
