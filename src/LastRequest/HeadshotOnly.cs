@@ -28,7 +28,7 @@ public class LRHeadshotOnly : LRBase
 
     public override void PlayerHurt(int health,int damage, int hitgroup) {
 		// dont allow damage when its not to head
-		if (hitgroup != Lib.HITGROUP_HEAD && hitgroup != (int)HitGroup_t.HITGROUP_GENERIC)
+		if (hitgroup != Lib.HITGROUP_HEAD)
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
             player.RestoreHP(damage,health);

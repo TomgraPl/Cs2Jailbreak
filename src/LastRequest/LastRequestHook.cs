@@ -38,6 +38,9 @@ public partial class LastRequest
 
     public void TakeDamage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
     {
+        if (!attacker.IsLegal()) {
+            return;
+        }
         // neither player is in lr we dont care
         if(!InLR(player) && !InLR(attacker))
         {
