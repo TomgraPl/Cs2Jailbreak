@@ -310,10 +310,10 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
     public HookResult OnPlayerChat(CCSPlayerController? invoke, CommandInfo command)
     {
         // dont print chat, warden is handling it
-        if(!warden.PlayerChat(invoke,command))
+        /*if(!warden.PlayerChat(invoke,command))
         {
             return HookResult.Handled;
-        }
+        }*/
 
         return HookResult.Continue;
     }

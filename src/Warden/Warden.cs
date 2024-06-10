@@ -267,7 +267,7 @@ public partial class Warden
     public int deputySlot { get; private set; } = INVALID_SLOT;
     int wardenSlot { get; set; } = INVALID_SLOT;
 
-    public static String WARDEN_PREFIX = JailPlugin.Localize("warden.warden_prefix");
+    public static String WARDEN_PREFIX { get; set; } = JailPlugin.Localize("warden.warden_prefix");
 
     long wardenTimestamp = -1;
 
