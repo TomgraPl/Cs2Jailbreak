@@ -29,9 +29,10 @@ public partial class SpecialDay
 
     public void EndSD(bool forced = false)
     {
-        if(activeSD != null)
-        {
-            JailPlugin.EndEvent();
+        if(activeSD != null) {
+			ConVar.Find("sv_teamid_overhead")?.SetValue<bool>(true);
+			ConVar.Find("sv_teamid_overhead_always_prohibit")?.SetValue<bool>(false);
+			JailPlugin.EndEvent();
             activeSD.EndCommon();
             activeSD = null;
 
@@ -181,7 +182,9 @@ public partial class SpecialDay
 
             // start the countdown for enable
             countdown.Start($"{name} starts in",delay,0,null,StartSD);
-        }
+            ConVar.Find("sv_teamid_overhead")?.SetValue<bool>(false);
+			ConVar.Find("sv_teamid_overhead_always_prohibit")?.SetValue<bool>(true);
+		}
     }
 
     public void StartSD(int unused)
