@@ -24,7 +24,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 {
     // Global event settings, used to filter plugin activits
     // during warday and SD
-    bool isEventActive = false;
+    bool isEventActive { get; set; } = false;
 
     public JailConfig Config  { get; set; } = new JailConfig();
     public static IInterOperabilityAPI? _api;

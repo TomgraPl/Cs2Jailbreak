@@ -90,6 +90,7 @@ public partial class LastRequest
             // call the final LR init function and mark it as truly active
             lr.Activate();
             lr.PairActivate();
+            IsActiveLR = true;
         }
     }
 
@@ -288,6 +289,7 @@ public partial class LastRequest
     public void EndLR(int slot)
     {
         LRBase? lr = activeLR[slot];
+        IsActiveLR = false;
 
         if(lr == null)
         {
@@ -571,4 +573,5 @@ public partial class LastRequest
     long startTimestamp = 0;
 
     public static String LR_PREFIX = $" {ChatColors.Green}[LR]: {ChatColors.White}";
+    public static bool IsActiveLR { get; set; } = false;
 }

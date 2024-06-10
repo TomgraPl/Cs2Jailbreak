@@ -64,6 +64,10 @@ public partial class SpecialDay
             invoke.Announce(SPECIALDAY_PREFIX,"You cannot call two SD's at once");
             return;
         }
+        if (LastRequest.IsActiveLR) {
+			invoke.LocalizeAnnounce(SPECIALDAY_PREFIX, "Jail.SD.ActiveLR");
+			return;
+		}
 
         // invoked as warden
         // reset the round counter so they can't do it again
@@ -340,7 +344,7 @@ public partial class SpecialDay
     // so we can't get weird conflicts, but its not a big deal
     bool wsdCommand = false;
 
-    SDBase? activeSD = null;
+    SDBase? activeSD { get; set; } = null;
 
     public bool overrideFF { get; set; } = false;
 
