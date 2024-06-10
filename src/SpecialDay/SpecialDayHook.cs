@@ -106,7 +106,7 @@ public partial class SpecialDay
             return;
         }
 
-        if(activeSD.restrictDamage)
+        if(activeSD.restrictDamage || (type == SDType.SPECTRE && !activeSD.IsBoss(player)))
         {
             damage = 0.0f;
         }

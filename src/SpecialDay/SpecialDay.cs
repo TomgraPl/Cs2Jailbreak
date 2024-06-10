@@ -353,7 +353,7 @@ public partial class SpecialDay
 
     Countdown<int> countdown = new Countdown<int>();
 
-    SDType type = SDType.NONE;
+    public SDType type { get; set; } = SDType.NONE;
 
     public JailConfig Config = new JailConfig();
 

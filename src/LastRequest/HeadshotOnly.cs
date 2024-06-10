@@ -10,6 +10,7 @@ using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
+using System.Numerics;
 
 public class LRHeadshotOnly : LRBase
 {
@@ -25,10 +26,9 @@ public class LRHeadshotOnly : LRBase
         player.GiveWeapon("deagle");
     }
 
-    public override void PlayerHurt(int health,int damage, int hitgroup) 
-    {
-        // dont allow damage when its not to head
-        if(hitgroup != Lib.HITGROUP_HEAD)
+    public override void PlayerHurt(int health,int damage, int hitgroup) {
+		// dont allow damage when its not to head
+		if (hitgroup != Lib.HITGROUP_HEAD && hitgroup != (int)HitGroup_t.HITGROUP_GENERIC)
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
             player.RestoreHP(damage,health);

@@ -70,7 +70,7 @@ public class JailPlugin : BasePlugin, IPluginConfig<JailConfig>
 
     public override string ModuleName => "CS2 Jailbreak - destoer";
 
-    public override string ModuleVersion => "v0.4.5c t15";
+    public override string ModuleVersion => "v0.4.5c t16";
     public static WardenApi? WardenService { get; set; } = null;
     public override void Load(bool hotReload)
     {
